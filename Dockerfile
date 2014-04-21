@@ -1,6 +1,6 @@
 # RabbitMQ container used for local development environment
 #
-# Version 0.0.1
+# Version 0.1.0
 
 FROM ubuntu:12.04
 
@@ -26,23 +26,22 @@ RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN apt-get update
 
 #rabbitmq 
-RUN groupadd --gid 1000 rabbitmq
-RUN adduser --uid 1000 --ingroup rabbitmq --home /var/lib/rabbitmq --no-create-home --gecos "RabbitMQ messaging server" --disabled-login rabbitmq
-
 RUN apt-get install rabbitmq-server -y
 
 RUN update-rc.d -f rabbitmq-server disable
 
-ADD rabbitmq-env.conf /etc/rabbitmq/rabbitmq-env.conf
-ADD hostname.conf /etc/rabbitmq/rabbitmq.conf.d/hostname.conf
+ADD pre_rabbitmq /usr/local/bin/pre_rabbitmq
+RUN chmod +x /usr/local/bin/pre_rabbitmq
 
 # supervisord
 RUN apt-get install supervisor -y
 
+RUN update-rc.d -f supervisor disable
+
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-VOLUME ["/var/log/rabbitmq"]
+VOLUME ["/var/log/rabbitmq", "/var/lib/rabbitmq"]
 
 EXPOSE 5672
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/local/bin/pre_rabbitmq"]

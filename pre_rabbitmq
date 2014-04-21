@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+node=${RABBITMQ_NODENAME:-"bunny"}
+hostname=${RABBITMQ_HOSTNAME:-"${HOSTNAME}"}
+nodename=${node}@${hostname}
+
+touch /var/log/rabbitmq/${nodename}-sasl.log
+touch /var/log/rabbitmq/${nodename}.log
+touch /var/log/rabbitmq/shutdown_log
+touch /var/log/rabbitmq/startup_log
+
+echo "NODENAME=${nodename}" > /etc/rabbitmq/rabbitmq.conf.d/hostname.conf
+
+chown -R rabbitmq:rabbitmq /var/lib/rabbitmq
+chown -R rabbitmq:rabbitmq /var/log/rabbitmq
+
+exec supervisord
