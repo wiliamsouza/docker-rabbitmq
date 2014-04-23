@@ -15,13 +15,12 @@ $ docker.io build -t wiliamsouza/rabbitmq .
 Change `wiliamsouza` to your Docker
 [index](https://index.docker.io/u/wiliamsouza/) username.
 
-Environment variable
---------------------
+Environment variable:
 
 You pass with ``-e`` docker option.
 
 * ``RABBITMQ_NODENAME``: Node name defaults to ``bunny``.
-* ``RABBITMQ_HOSTNAME``: Hostname defaults to $HOSTNAME with you not set it
+* ``RABBITMQ_HOSTNAME``: Hostname defaults to ``$HOSTNAME`` if you not set it
                          you should pass ``-h`` to docker command line.
 
 Shell access:

@@ -30,8 +30,8 @@ RUN apt-get install rabbitmq-server -y
 
 RUN update-rc.d -f rabbitmq-server disable
 
-ADD pre_rabbitmq /usr/local/bin/pre_rabbitmq
-RUN chmod +x /usr/local/bin/pre_rabbitmq
+ADD startup /usr/local/bin/startup
+RUN chmod +x /usr/local/bin/startup
 
 # supervisord
 RUN apt-get install supervisor -y
@@ -44,4 +44,4 @@ VOLUME ["/var/log/rabbitmq", "/var/lib/rabbitmq"]
 
 EXPOSE 5672
 
-CMD ["/usr/local/bin/pre_rabbitmq"]
+CMD ["/usr/local/bin/startup"]
