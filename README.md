@@ -26,7 +26,7 @@ You pass with ``-e`` docker option.
 Shell access:
 
 ```
-$ docker.io run -h rabbitmq -p 5672:5672 -i \
+$ docker.io run -p 5672:5672 -i \
 -v /home/wiliam/devel/docker-rabbitmq/data/log:/var/log/rabbitmq \
 -v /home/wiliam/devel/docker-rabbitmq/data/rabbitmq:/var/lib/rabbitmq
 -t wiliamsouza/rabbitmq /bin/bash
