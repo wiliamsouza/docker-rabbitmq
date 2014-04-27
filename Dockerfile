@@ -1,4 +1,4 @@
-# RabbitMQ container used for local development environment
+# RabbitMQ server generic image source
 #
 # Version 0.1.0
 
@@ -17,7 +17,17 @@ RUN dpkg-reconfigure locales
 
 RUN apt-get install -y python-software-properties
 
-RUN dpkg-divert --local --rename --add /sbin/initctl
+# supervisord
+RUN apt-get install supervisor -y
+RUN update-rc.d -f supervisor disable
+
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# start script
+ADD startup /usr/local/bin/startup
+RUN chmod +x /usr/local/bin/startup
+
+CMD ["/usr/local/bin/startup"]
 
 # Environment
 
@@ -30,21 +40,8 @@ RUN apt-get update
 
 #rabbitmq-server 
 RUN apt-get install rabbitmq-server -y
-
 RUN update-rc.d -f rabbitmq-server disable
-
-# start script
-ADD startup /usr/local/bin/startup
-RUN chmod +x /usr/local/bin/startup
-
-# supervisord
-RUN apt-get install supervisor -y
-RUN update-rc.d -f supervisor disable
-
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 VOLUME ["/var/log/rabbitmq", "/var/lib/rabbitmq"]
 
 EXPOSE 5672
-
-CMD ["/usr/local/bin/startup"]
