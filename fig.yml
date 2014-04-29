@@ -1,0 +1,9 @@
+rabbitmq:
+  image: wiliamsouza/rabbitmq
+  ports:
+    - "5672:5672"
+  volumes:
+    - volumes/log:/var/log/rabbitmq
+    - volumes/lib:/var/lib/rabbitmq
+  environment:
+    - HOSTNAME: rabbitmq
