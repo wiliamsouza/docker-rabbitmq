@@ -1,5 +1,5 @@
 rabbitmq:
-  image: wiliamsouza/rabbitmq
+  build: .
   ports:
     - "5672:5672"
   volumes:
